@@ -6,5 +6,5 @@ velocity.log
 velocity.log*
 war
 *.war
-.classpath
-//.settings
+//.classpath
+.settings
