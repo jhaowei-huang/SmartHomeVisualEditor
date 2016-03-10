@@ -6,8 +6,5 @@ velocity.log
 velocity.log*
 war
 *.war
-src/main/webapp/VAADIN/gwt-unitCache*
-src/main/webapp/VAADIN/widgetsets*
-src/main/webapp/VAADIN/widgetsets/*
 .classpath
-.settings
+//.settings
