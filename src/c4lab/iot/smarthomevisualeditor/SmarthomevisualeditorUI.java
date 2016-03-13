@@ -24,5 +24,4 @@ public class SmarthomevisualeditorUI extends UI {
 		final MainPage page = new MainPage();
 		setContent(page);
 	}
-
 }

@@ -5,6 +5,7 @@ import fi.jasoft.dragdroplayouts.DDVerticalLayout;
 
 public class Source extends DDVerticalLayout {
 	private boolean isContainer = false;
+	// 
 	private String id = "";
 	private String name = "";
 	private String type = "";

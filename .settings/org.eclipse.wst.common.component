@@ -2,6 +2,7 @@
     <wb-module deploy-name="SmartHomeVisualEditor">
         <wb-resource deploy-path="/" source-path="/WebContent" tag="defaultRootSource"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/test"/>
         <property name="context-root" value="SmartHomeVisualEditor"/>
         <property name="java-output-path" value="/SmartHomeVisualEditor/build/classes"/>
     </wb-module>

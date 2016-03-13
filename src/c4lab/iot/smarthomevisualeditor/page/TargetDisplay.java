@@ -43,6 +43,7 @@ public class TargetDisplay extends TargetDisplayDesign {
 					if (source.isContainer()) {
 						// 將Source轉換成RoomSource型態，放置正確的格子中
 						RoomSource rs = new RoomSource(source.getName());
+						rs.setType(source.getName());
 						target.addComponent(rs, column, row);
 					}
 				} else { // component在grid layou內移動
