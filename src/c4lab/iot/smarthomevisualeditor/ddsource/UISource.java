@@ -1,11 +1,16 @@
 package c4lab.iot.smarthomevisualeditor.ddsource;
 
+import java.security.SecureRandom;
+
 import com.vaadin.ui.Component;
 import fi.jasoft.dragdroplayouts.DDVerticalLayout;
 
 public class UISource extends DDVerticalLayout {
+	static final String SET = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+	static SecureRandom rnd = new SecureRandom();
+
 	private boolean isContainer = false;
-	
+
 	private String id = "";
 	private String name = "";
 	private String type = "";
@@ -17,16 +22,24 @@ public class UISource extends DDVerticalLayout {
 		this.setSizeFull();
 		this.name = name;
 	}
-	
+
 	public UISource(Component c, String name) {
 		super();
 		this.setSizeFull();
 		this.name = name;
-		
+
 		c.setSizeFull();
 		this.setContent(c);
 	}
-	
+
+	public static String randomString() {
+		int len = 10;
+		StringBuilder sb = new StringBuilder(len);
+		for (int i = 0; i < len; i++)
+			sb.append(SET.charAt(rnd.nextInt(SET.length())));
+		return sb.toString();
+	}
+
 	public boolean isContainer() {
 		return isContainer;
 	}
@@ -34,7 +47,7 @@ public class UISource extends DDVerticalLayout {
 	public void setIsContainer(boolean isContainer) {
 		this.isContainer = isContainer;
 	}
-	
+
 	public String getId() {
 		return id;
 	}
@@ -62,7 +75,7 @@ public class UISource extends DDVerticalLayout {
 	public Component getContent() {
 		return content;
 	}
-	
+
 	public void setContent(Component content) {
 		this.content = content;
 		this.contentClass = content.getClass();
