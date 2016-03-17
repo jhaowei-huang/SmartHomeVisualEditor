@@ -44,31 +44,31 @@ public class RoomUISource extends UISource {
 		roomLayout.setDropHandler(new DefaultVerticalLayoutDropHandler(Alignment.TOP_CENTER) {
 			@Override
 			public void drop(DragAndDropEvent event) {
-				LayoutBoundTransferable transferable = (LayoutBoundTransferable) event
-		                .getTransferable();
-				
-				VerticalLayoutTargetDetails details = (VerticalLayoutTargetDetails) event
-		                .getTargetDetails();
-		        AbstractOrderedLayout layout = (AbstractOrderedLayout) details
-		                .getTarget();
-		        // Component source = event.getTransferable().getSourceComponent();
-		        int idx = details.getOverIndex();
+				LayoutBoundTransferable transferable = (LayoutBoundTransferable) event.getTransferable();
+
+				VerticalLayoutTargetDetails details = (VerticalLayoutTargetDetails) event.getTargetDetails();
+				AbstractOrderedLayout layout = (AbstractOrderedLayout) details.getTarget();
+				// Component source =
+				// event.getTransferable().getSourceComponent();
+				int idx = details.getOverIndex();
 				VerticalDropLocation loc = details.getDropLocation();
 				Component component = transferable.getComponent();
-				
+
 				if (loc == VerticalDropLocation.MIDDLE || loc == VerticalDropLocation.BOTTOM)
-		            idx++;
-				
+					idx++;
+
 				UISource source = (UISource) component;
-				
-				if(!source.isContainer()) {
+
+				if (!source.isContainer()) {
 					ComponentUISource cs = new ComponentUISource(new Button(source.getName()), source.getName());
+					cs.setId(UISource.randomString());
+					System.out.println(cs.getId());
 					componentsList.add(cs);
 					if (idx >= 0) {
-			        	layout.addComponent(cs, idx);
-			        } else {
-			        	layout.addComponent(cs);
-			        }
+						layout.addComponent(cs, idx);
+					} else {
+						layout.addComponent(cs);
+					}
 				}
 			}
 		});
@@ -77,46 +77,41 @@ public class RoomUISource extends UISource {
 		roomDetailLayout.setDropHandler(new DefaultAbsoluteLayoutDropHandler() {
 			@Override
 			public void drop(DragAndDropEvent event) {
-		        LayoutBoundTransferable transferable = (LayoutBoundTransferable) event
-		                .getTransferable();
-		        Component component = transferable.getComponent();
-		        AbsoluteLayoutTargetDetails details = (AbsoluteLayoutTargetDetails) event
-	                    .getTargetDetails();
-	        	DDAbsoluteLayout layout = (DDAbsoluteLayout) details.getTarget();
-		        if(component.getClass().equals(ComponentUISource.class)) {
-		        	// Get top-left pixel position
-		            int leftPixelPosition = details.getRelativeLeft();
-		            int topPixelPosition = details.getRelativeTop();
-		            ComponentPosition position = layout.getPosition(component);
-		            position.setLeft((float) leftPixelPosition, Sizeable.Unit.PIXELS);
-		            position.setTop((float) topPixelPosition, Sizeable.Unit.PIXELS);
-		            ComponentUISource cs = (ComponentUISource) component;
-		            System.out.println(componentsList.contains(cs));
-		            cs.setPositionX(leftPixelPosition);
-		            cs.setPositionY(topPixelPosition);
-		            System.out.println("move: " + cs.getPositionY() + ", " + cs.getPositionX());
-		        }
-		        else if(component.getClass().equals(UISource.class)) {
-		        	UISource source = (UISource) component;
-		        	if(!source.isContainer()) {
+				LayoutBoundTransferable transferable = (LayoutBoundTransferable) event.getTransferable();
+				Component component = transferable.getComponent();
+				AbsoluteLayoutTargetDetails details = (AbsoluteLayoutTargetDetails) event.getTargetDetails();
+				DDAbsoluteLayout layout = (DDAbsoluteLayout) details.getTarget();
+				if (component.getClass().equals(ComponentUISource.class)) {
+					// Get top-left pixel position
+					int leftPixelPosition = details.getRelativeLeft();
+					int topPixelPosition = details.getRelativeTop();
+					ComponentPosition position = layout.getPosition(component);
+					position.setLeft((float) leftPixelPosition, Sizeable.Unit.PIXELS);
+					position.setTop((float) topPixelPosition, Sizeable.Unit.PIXELS);
+					ComponentUISource cs = (ComponentUISource) component;
+					cs.setPositionX(leftPixelPosition);
+					cs.setPositionY(topPixelPosition);
+				} else if (component.getClass().equals(UISource.class)) {
+					UISource source = (UISource) component;
+					if (!source.isContainer()) {
 						ComponentUISource cs = new ComponentUISource(new Button(source.getName()), source.getName());
+						cs.setId(UISource.randomString());
 						cs.setSizeUndefined();
 						cs.getContent().setSizeUndefined();
 						int leftPixelPosition = details.getRelativeLeft();
-			            int topPixelPosition = details.getRelativeTop();
-						layout.addComponent(cs, "left:" + leftPixelPosition + "px;top:"
-				                + topPixelPosition + "px");
+						int topPixelPosition = details.getRelativeTop();
+						layout.addComponent(cs, "left:" + leftPixelPosition + "px;top:" + topPixelPosition + "px");
 						cs.setPositionX(leftPixelPosition);
-			            cs.setPositionY(topPixelPosition);
-			            componentsList.add(cs);
+						cs.setPositionY(topPixelPosition);
+						componentsList.add(cs);
 					}
-		        }
+				}
 			}
 		});
 		panel.addClickListener(new MouseEvents.ClickListener() {
 			@Override
 			public void click(ClickEvent event) {
-				if(event.isDoubleClick() && panel.getContent() != roomDetailLayout) {
+				if (event.isDoubleClick() && panel.getContent() != roomDetailLayout) {
 					RoomUISource rs = (RoomUISource) event.getComponent().getParent();
 					DDGridLayout grid = (DDGridLayout) event.getComponent().getParent().getParent();
 					VerticalLayout parent = (VerticalLayout) grid.getParent();
@@ -125,23 +120,21 @@ public class RoomUISource extends UISource {
 					roomEditorPage.setPrevious(grid);
 					parent.addComponent(roomEditorPage);
 					roomEditorPage.changeToDetailPage();
-					System.out.println(rs.getName());
 				}
 			}
 		});
-		
+
 		panel.setContent(roomLayout);
 	}
 
 	public void penddingToDetail() {
 		roomDetailLayout.removeAllComponents();
 		for (ComponentUISource cs : componentsList) {
-			System.out.println(cs.getPositionY() + ", " + cs.getPositionX());
 			roomDetailLayout.addComponent(cs.caseToDetailComponentUISource(),
 					"top:" + cs.getPositionY() + "px;left:" + cs.getPositionX() + "px");
 		}
 
-		Panel panel = (Panel) this.getContent(); 
+		Panel panel = (Panel) this.getContent();
 		panel.setContent(roomDetailLayout);
 	}
 

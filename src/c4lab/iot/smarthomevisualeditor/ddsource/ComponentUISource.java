@@ -22,6 +22,7 @@ public class ComponentUISource extends UISource {
 		super(cs.getName());
 		this.setWidthUndefined();
 		this.setHeightUndefined();
+		this.setId(cs.getId());
 		this.setContent(new Button(cs.getName()));
 	}
 	
@@ -30,8 +31,9 @@ public class ComponentUISource extends UISource {
 	}
 	
 	public ComponentUISource caseToDetailComponentUISource() {
-		ComponentUISource clone = new ComponentUISource(this);
-		return clone;
+		// ComponentUISource clone = new ComponentUISource(this);
+		this.setWidthUndefined();
+		return this;
 	}
 
 	public int getPositionX() {
