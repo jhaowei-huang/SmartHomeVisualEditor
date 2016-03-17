@@ -2,11 +2,8 @@ package c4lab.iot.smarthomevisualeditor.page;
 
 import com.vaadin.ui.Button;
 import com.vaadin.ui.TabSheet.Tab;
-import com.vaadin.ui.VerticalLayout;
 
-import c4lab.iot.smarthomevisualeditor.ddsource.ComponentSource;
-import c4lab.iot.smarthomevisualeditor.ddsource.RoomSource;
-import c4lab.iot.smarthomevisualeditor.ddsource.Source;
+import c4lab.iot.smarthomevisualeditor.ddsource.UISource;
 import c4lab.iot.smarthomevisualeditor.design.EditorPageDesign;
 import fi.jasoft.dragdroplayouts.client.ui.LayoutDragMode;
 
@@ -32,7 +29,7 @@ public class EditorPage extends EditorPageDesign {
 		AccordionTab tab = new AccordionTab();
 		
 		for (String name : list) {
-			Source rs = new Source(new Button(name), name);
+			UISource rs = new UISource(new Button(name), name);
 			rs.setIsContainer(isContainer);		
 			tab.addComponentToDDLayout(rs);
 		}

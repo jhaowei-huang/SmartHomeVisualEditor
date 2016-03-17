@@ -5,8 +5,8 @@ import com.vaadin.event.dd.DropHandler;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Alignment;
 
-import c4lab.iot.smarthomevisualeditor.ddsource.RoomSource;
-import c4lab.iot.smarthomevisualeditor.ddsource.Source;
+import c4lab.iot.smarthomevisualeditor.ddsource.RoomUISource;
+import c4lab.iot.smarthomevisualeditor.ddsource.UISource;
 import c4lab.iot.smarthomevisualeditor.design.TargetDisplayDesign;
 import fi.jasoft.dragdroplayouts.DDGridLayout.GridLayoutTargetDetails;
 import fi.jasoft.dragdroplayouts.client.ui.LayoutDragMode;
@@ -37,18 +37,18 @@ public class TargetDisplay extends TargetDisplayDesign {
 				LayoutBoundTransferable transferable = (LayoutBoundTransferable) event.getTransferable();
 				Component component = transferable.getComponent();
 				// component從左方accordion拖曳過來的
-				if(component.getClass().equals(Source.class)) {
-					Source source = (Source) component;
+				if(component.getClass().equals(UISource.class)) {
+					UISource source = (UISource) component;
 					// 拖曳的component是房間類的才新增至grid layout
 					if (source.isContainer()) {
 						// 將Source轉換成RoomSource型態，放置正確的格子中
-						RoomSource rs = new RoomSource(source.getName());
+						RoomUISource rs = new RoomUISource(source.getName());
 						rs.setType(source.getName());
 						target.addComponent(rs, column, row);
 					}
 				} else { // component在grid layou內移動
 					// 移動位置
-					RoomSource rs = (RoomSource) component.getParent();
+					RoomUISource rs = (RoomUISource) component.getParent();
 					target.removeComponent(rs);
 					target.addComponent(rs, column, row);
 				}

@@ -5,11 +5,11 @@ import java.util.ArrayList;
 public class RoomModel {
 	private String id;
 	private String typeId;
-	private ArrayList<String> resourceId;
+	private ArrayList<ComponentModel> componentModelList;
 	private boolean flag;
 	
 	public RoomModel() {
-		
+		super();
 	}
 
 	public String getId() {
@@ -28,12 +28,8 @@ public class RoomModel {
 		this.typeId = typeId;
 	}
 
-	public ArrayList<String> getResourceId() {
-		return resourceId;
-	}
-
-	public void setResourceId(ArrayList<String> resourceId) {
-		this.resourceId = resourceId;
+	public ArrayList<ComponentModel> getComponentModelList() {
+		return componentModelList;
 	}
 
 	public boolean isFlag() {

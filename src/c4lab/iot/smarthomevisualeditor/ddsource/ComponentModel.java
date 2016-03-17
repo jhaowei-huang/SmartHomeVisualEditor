@@ -3,13 +3,22 @@ package c4lab.iot.smarthomevisualeditor.ddsource;
 import java.util.ArrayList;
 
 public class ComponentModel {
-	private String id;
+	private String classId;
 	private String typeId;
-	private ArrayList<String> resourceId;
 	private boolean flag;
+	private String id;
+	private ArrayList<String> resourceId;
 	
 	public ComponentModel() {
 		super();
+	}
+	
+	public String classId() {
+		return id;
+	}
+
+	public void classId(String classId) {
+		this.classId = classId;
 	}
 
 	public String getId() {

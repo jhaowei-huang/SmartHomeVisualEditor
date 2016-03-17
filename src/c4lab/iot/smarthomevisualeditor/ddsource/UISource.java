@@ -3,29 +3,28 @@ package c4lab.iot.smarthomevisualeditor.ddsource;
 import com.vaadin.ui.Component;
 import fi.jasoft.dragdroplayouts.DDVerticalLayout;
 
-public class Source extends DDVerticalLayout {
+public class UISource extends DDVerticalLayout {
 	private boolean isContainer = false;
-	// 
+	
 	private String id = "";
 	private String name = "";
 	private String type = "";
 	private Component content = null;
 	private Class contentClass = null;
 
-	public Source(String name) {
+	public UISource(String name) {
 		super();
 		this.setSizeFull();
 		this.name = name;
 	}
 	
-	public Source(Component c, String name) {
+	public UISource(Component c, String name) {
 		super();
 		this.setSizeFull();
-		c.setSizeFull();
-		this.content = c;
 		this.name = name;
-		this.contentClass = c.getClass();
-		this.addComponent(this.content);
+		
+		c.setSizeFull();
+		this.setContent(c);
 	}
 	
 	public boolean isContainer() {
@@ -62,6 +61,12 @@ public class Source extends DDVerticalLayout {
 
 	public Component getContent() {
 		return content;
+	}
+	
+	public void setContent(Component content) {
+		this.content = content;
+		this.contentClass = content.getClass();
+		this.addComponent(this.content);
 	}
 
 	public Class getContentClass() {

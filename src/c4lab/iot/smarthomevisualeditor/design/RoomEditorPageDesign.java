@@ -22,6 +22,7 @@ public class RoomEditorPageDesign extends VerticalLayout {
 	protected Button btnSaveReturn;
 	protected Label lblRoomName;
 	protected Label lblRoomType;
+	protected VerticalLayout detailLayout;
 
 	public RoomEditorPageDesign() {
 		Design.read(this);
