@@ -53,7 +53,7 @@ public class TargetDisplay extends TargetDisplayDesign {
 					target.addComponent(rs, column, row);
 				}
 
-				System.out.println(component.getParent().getClass().getName());
+				// System.out.println(component.getParent().getClass().getName());
 			}
 		});
 		
