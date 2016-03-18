@@ -61,8 +61,8 @@ public class RoomUISource extends UISource {
 
 				if (!source.isContainer()) {
 					ComponentUISource cs = new ComponentUISource(new Button(source.getName()), source.getName());
-					cs.setId(UISource.randomString());
-					System.out.println(cs.getId());
+					cs.setUid(UISource.randomString());
+					System.out.println(cs.getUid());
 					componentsList.add(cs);
 					if (idx >= 0) {
 						layout.addComponent(cs, idx);
@@ -82,7 +82,7 @@ public class RoomUISource extends UISource {
 				AbsoluteLayoutTargetDetails details = (AbsoluteLayoutTargetDetails) event.getTargetDetails();
 				DDAbsoluteLayout layout = (DDAbsoluteLayout) details.getTarget();
 				if (component.getClass().equals(ComponentUISource.class)) {
-					// Get top-left pixel position
+					// move component
 					int leftPixelPosition = details.getRelativeLeft();
 					int topPixelPosition = details.getRelativeTop();
 					ComponentPosition position = layout.getPosition(component);
@@ -92,10 +92,11 @@ public class RoomUISource extends UISource {
 					cs.setPositionX(leftPixelPosition);
 					cs.setPositionY(topPixelPosition);
 				} else if (component.getClass().equals(UISource.class)) {
+					// drop to create new component
 					UISource source = (UISource) component;
 					if (!source.isContainer()) {
 						ComponentUISource cs = new ComponentUISource(new Button(source.getName()), source.getName());
-						cs.setId(UISource.randomString());
+						cs.setUid(UISource.randomString());
 						cs.setSizeUndefined();
 						cs.getContent().setSizeUndefined();
 						int leftPixelPosition = details.getRelativeLeft();

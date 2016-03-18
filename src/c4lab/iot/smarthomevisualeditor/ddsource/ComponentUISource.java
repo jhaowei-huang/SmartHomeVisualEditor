@@ -2,7 +2,6 @@ package c4lab.iot.smarthomevisualeditor.ddsource;
 
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
-import com.vaadin.ui.Label;
 
 import fi.jasoft.dragdroplayouts.DDVerticalLayout;
 
