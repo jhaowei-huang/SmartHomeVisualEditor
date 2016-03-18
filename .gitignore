@@ -8,3 +8,4 @@ war
 *.war
 //.classpath
 .settings
+/bin
