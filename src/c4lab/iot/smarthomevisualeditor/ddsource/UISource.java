@@ -11,7 +11,7 @@ public class UISource extends DDVerticalLayout {
 
 	private boolean isContainer = false;
 
-	private String id = "";
+	private String uid = "";
 	private String name = "";
 	private String type = "";
 	private Component content = null;
@@ -48,12 +48,12 @@ public class UISource extends DDVerticalLayout {
 		this.isContainer = isContainer;
 	}
 
-	public String getId() {
-		return id;
+	public String getUid() {
+		return uid;
 	}
 
-	public void setId(String id) {
-		this.id = id;
+	public void setUid(String uid) {
+		this.uid = uid;
 	}
 
 	public String getName() {
