@@ -1,7 +1,6 @@
 package c4lab.iot.smarthomevisualeditor.page;
 
 import com.vaadin.event.dd.DragAndDropEvent;
-import com.vaadin.event.dd.DropHandler;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Alignment;
 
@@ -16,7 +15,10 @@ import fi.jasoft.dragdroplayouts.events.LayoutBoundTransferable;
 public class TargetDisplay extends TargetDisplayDesign {
 	public TargetDisplay() {
 		super();
-
+		// target.setStyleName("gridcsstag");
+		/*
+		 * .i-button-nobackground { background: transparent; border: none; }
+		 */
 		target.setColumns(3);
 		target.setRows(3);
 		// 僅允許drop物件至grid layout的每個cell中
@@ -37,7 +39,7 @@ public class TargetDisplay extends TargetDisplayDesign {
 				LayoutBoundTransferable transferable = (LayoutBoundTransferable) event.getTransferable();
 				Component component = transferable.getComponent();
 				// component從左方accordion拖曳過來的
-				if(component.getClass().equals(UISource.class)) {
+				if (component.getClass().equals(UISource.class)) {
 					UISource source = (UISource) component;
 					// 拖曳的component是房間類的才新增至grid layout
 					if (source.isContainer()) {
@@ -56,7 +58,7 @@ public class TargetDisplay extends TargetDisplayDesign {
 				// System.out.println(component.getParent().getClass().getName());
 			}
 		});
-		
+
 		target.setDragMode(LayoutDragMode.CAPTION);
 	}
 }
