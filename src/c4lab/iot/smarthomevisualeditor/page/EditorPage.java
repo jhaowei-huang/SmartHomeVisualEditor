@@ -50,8 +50,9 @@ public class EditorPage extends EditorPageDesign {
 		AccordionTab tab = new AccordionTab();
 		
 		for(TypeID t : list) {
-			System.out.println(t.getName() + " = " + t.getClassID());
+			System.out.println(t.getName() + " = " + t.getId());
 			UISource rs = new UISource(new Button(t.getName()), t.getName());
+			rs.setType(t.getId() + "");
 			rs.setIsContainer(isContainer);		
 			tab.addComponentToDDLayout(rs);
 		}
