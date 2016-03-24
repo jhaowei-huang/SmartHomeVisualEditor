@@ -15,49 +15,60 @@ public class EditorPage extends EditorPageDesign {
 	private final String roomList[] = { "Living Room", "Bedroom", "Bathroom", "Kitchen" };
 	private final String sensorList[] = { "temperature", "humidity", "bright", "Smoke", "CO2", "PIR" };
 	private final String applianceList[] = { "空氣清淨機", "電扇", "咖啡機", "電燈", "暖氣機", "Kinect/攝影機", "掃地機器人" };
-	private Tab tabs[];
+	private AccordionTab tabs[];
 
 	public EditorPage() {
 		super();
 		accordion.setDragMode(LayoutDragMode.NONE);
 
 		int numOfTab = 0;
-		tabs = new Tab[3];
+		tabs = new AccordionTab[3];
 		// 讀取room清單、sensor清單以及家電清單，加入accordion裡
 		addTabToAccordion(roomList, "Room", numOfTab++, true);
 		// addTabToAccordion(sensorList, "Sensor", numOfTab++, false);
-		// addTabToAccordion(applianceList, "Home Appliance", numOfTab++, false);
-		
+		// addTabToAccordion(applianceList, "Home Appliance", numOfTab++,
+		// false);
+
 		final IoTData iotData = new IoTData();
-		addTabToAccordion(iotData.getTypeIDs(), "Sensor", numOfTab++, false);
-		addTabToAccordion(iotData.getTypeIDs(), "Home Appliance", numOfTab++, false);
+		addTabToAccordion("Sensor", numOfTab++);
+		addTabToAccordion("Home Appliance", numOfTab++);
+		addComponentToTab(iotData.getTypeIDs());
 	}
 
 	private void addTabToAccordion(String[] list, String nameOfTab, int position, boolean isContainer) {
 		AccordionTab tab = new AccordionTab();
-		
+
 		for (String name : list) {
 			UISource rs = new UISource(new Button(name), name);
-			rs.setIsContainer(isContainer);		
+			rs.setIsContainer(isContainer);
 			tab.addComponentToDDLayout(rs);
 		}
-		
-		tabs[position] = accordion.addTab(tab, position);
-		tabs[position].setCaption(nameOfTab);
+		tabs[position] = tab;
+		Tab t = accordion.addTab(tab, position);
+		t.setCaption(nameOfTab);
 	}
-	
-	private void addTabToAccordion(List<TypeID> list, String nameOfTab, int position, boolean isContainer) {
+
+	private void addTabToAccordion(String nameOfTab, int position) {
 		AccordionTab tab = new AccordionTab();
-		
-		for(TypeID t : list) {
-			System.out.println(t.getName() + " = " + t.getId());
+		tabs[position] = tab;
+		Tab t = accordion.addTab(tab, position);
+		t.setCaption(nameOfTab);
+	}
+
+	private void addComponentToTab(List<TypeID> list) {
+		// typeid = 120, 121, 122
+		for (TypeID t : list) {
 			UISource rs = new UISource(new Button(t.getName()), t.getName());
 			rs.setType(t.getId() + "");
-			rs.setIsContainer(isContainer);		
-			tab.addComponentToDDLayout(rs);
+			rs.setIsContainer(false);
+			// sensor tab
+			if (t.getId() == 120 || t.getId() == 121 || t.getId() == 122) {
+				AccordionTab tab = tabs[1];
+				tab.addComponentToDDLayout(rs);
+			} else {
+				AccordionTab tab = tabs[2];
+				tab.addComponentToDDLayout(rs);
+			}
 		}
-		
-		tabs[position] = accordion.addTab(tab, position);
-		tabs[position].setCaption(nameOfTab);
 	}
 }
