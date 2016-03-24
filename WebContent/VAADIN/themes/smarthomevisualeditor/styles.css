@@ -12932,3 +12932,15 @@ div.v-layout.v-horizontal.v-widget {
 	width: 19px;
 	overflow: hidden;
 }
+
+.smarthomevisualeditor .btnnobackground {
+	background: transparent !important;
+	border: 2px solid black !important;
+}
+
+.smarthomevisualeditor .gridcsstag {
+	margin: 0px;
+	padding: 0px;
+	border: 1px solid red;
+	padding: 0px !important;
+}

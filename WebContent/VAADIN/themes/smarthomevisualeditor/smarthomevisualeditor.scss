@@ -30,7 +30,18 @@
 @import "../valo/valo.scss";
 
 @mixin smarthomevisualeditor {
-  @include valo;
-
-  // Insert your own theme rules here
+	@include valo;
+	.btnnobackground {
+		background: transparent !important;
+		border: 2px solid black !important;
+	}
+	.gridcsstag {
+		margin: 0px;
+		padding: 0px;
+		border: 1px solid red;
+		padding: 0px !important;
+	}
+	.applianceair {
+		
+	}
 }
