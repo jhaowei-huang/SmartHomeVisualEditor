@@ -69,6 +69,44 @@ public class UISource extends DDVerticalLayout {
 
 	public void setType(String type) {
 		this.type = type;
+		switch (type) {
+		case "8":
+			break;
+		case "15":
+			break;
+		case "100":
+			break;
+		case "101":
+			break;
+		case "102":
+			break;
+		case "104":
+			break;
+		case "105":
+			break;
+		case "106":
+			break;
+		case "120":
+			break;
+		case "121":
+			break;
+		case "122":
+			break;
+		case "200":
+			break;
+		case "201":
+			break;
+		case "202":
+			break;
+		case "203":
+			break;
+		case "204":
+			break;
+		case "300":
+			break;
+		default:
+			break;
+		}
 	}
 
 	public Component getContent() {

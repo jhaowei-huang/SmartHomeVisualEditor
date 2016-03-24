@@ -6,30 +6,24 @@ import com.vaadin.event.MouseEvents;
 import com.vaadin.event.MouseEvents.ClickEvent;
 import com.vaadin.event.dd.DragAndDropEvent;
 import com.vaadin.server.Sizeable;
+import com.vaadin.server.ThemeResource;
 import com.vaadin.shared.ui.dd.HorizontalDropLocation;
 import com.vaadin.shared.ui.dd.VerticalDropLocation;
 import com.vaadin.ui.AbsoluteLayout.ComponentPosition;
-import com.vaadin.ui.AbstractOrderedLayout;
-import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
-import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.Panel;
-import com.vaadin.ui.SingleComponentContainer;
 import com.vaadin.ui.VerticalLayout;
 
 import c4lab.iot.smarthomevisualeditor.page.RoomEditorPage;
-import c4lab.iot.smarthomevisualeditor.page.TargetDisplay;
 import fi.jasoft.dragdroplayouts.DDAbsoluteLayout;
 import fi.jasoft.dragdroplayouts.DDCssLayout;
 import fi.jasoft.dragdroplayouts.DDCssLayout.CssLayoutTargetDetails;
 import fi.jasoft.dragdroplayouts.DDGridLayout;
-import fi.jasoft.dragdroplayouts.DDVerticalLayout;
 import fi.jasoft.dragdroplayouts.client.ui.LayoutDragMode;
 import fi.jasoft.dragdroplayouts.details.AbsoluteLayoutTargetDetails;
 import fi.jasoft.dragdroplayouts.drophandlers.DefaultAbsoluteLayoutDropHandler;
 import fi.jasoft.dragdroplayouts.drophandlers.DefaultCssLayoutDropHandler;
-import fi.jasoft.dragdroplayouts.drophandlers.DefaultVerticalLayoutDropHandler;
 import fi.jasoft.dragdroplayouts.events.LayoutBoundTransferable;
 
 public class RoomUISource extends UISource {
@@ -82,6 +76,9 @@ public class RoomUISource extends UISource {
 				if (!source.isContainer()) {
 					Button btn = new Button(source.getName());
 					btn.setDescription(source.getName());
+					ThemeResource res = new ThemeResource("svg/" + source.getType() + ".svg");
+					System.out.println(res);
+					// btn.setIcon(res);
 					ComponentUISource cs = new ComponentUISource(btn, source.getName());
 					cs.setUid(UISource.randomString());
 					cs.setSizeUndefined();
