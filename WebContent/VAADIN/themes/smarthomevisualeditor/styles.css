@@ -12935,7 +12935,7 @@ div.v-layout.v-horizontal.v-widget {
 
 .smarthomevisualeditor .btnnobackground {
 	background: transparent !important;
-	border: 2px solid black !important;
+	border: 0px !important;
 }
 
 .smarthomevisualeditor .gridcsstag {
