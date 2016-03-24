@@ -12,6 +12,8 @@ import com.vaadin.shared.ui.dd.VerticalDropLocation;
 import com.vaadin.ui.AbsoluteLayout.ComponentPosition;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
+import com.vaadin.ui.Embedded;
+import com.vaadin.ui.Image;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.VerticalLayout;
 
@@ -74,15 +76,16 @@ public class RoomUISource extends UISource {
 				UISource source = (UISource) component;
 
 				if (!source.isContainer()) {
-					Button btn = new Button(source.getName());
-					btn.setDescription(source.getName());
 					ThemeResource res = new ThemeResource("svg/" + source.getType() + ".svg");
-					System.out.println(res);
-					// btn.setIcon(res);
+					Image btn = new Image(source.getName(), res);
+					btn.setDescription(source.getName());
 					ComponentUISource cs = new ComponentUISource(btn, source.getName());
 					cs.setUid(UISource.randomString());
 					cs.setSizeUndefined();
 					cs.getContent().setSizeUndefined();
+					
+					btn.setWidth("40px");
+					btn.setHeight("40px");
 					System.out.println(cs.getUid());
 					componentsList.add(cs);
 					if (idx >= 0) {
