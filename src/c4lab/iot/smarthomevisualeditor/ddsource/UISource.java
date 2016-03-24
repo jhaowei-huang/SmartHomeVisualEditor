@@ -27,7 +27,6 @@ public class UISource extends DDVerticalLayout {
 		super();
 		this.setSizeFull();
 		this.name = name;
-
 		c.setSizeFull();
 		this.setContent(c);
 	}

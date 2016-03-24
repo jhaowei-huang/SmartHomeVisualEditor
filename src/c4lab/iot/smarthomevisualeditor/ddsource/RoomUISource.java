@@ -6,6 +6,7 @@ import com.vaadin.event.MouseEvents;
 import com.vaadin.event.MouseEvents.ClickEvent;
 import com.vaadin.event.dd.DragAndDropEvent;
 import com.vaadin.server.Sizeable;
+import com.vaadin.shared.ui.dd.HorizontalDropLocation;
 import com.vaadin.shared.ui.dd.VerticalDropLocation;
 import com.vaadin.ui.AbsoluteLayout.ComponentPosition;
 import com.vaadin.ui.AbstractOrderedLayout;
@@ -20,16 +21,19 @@ import com.vaadin.ui.VerticalLayout;
 import c4lab.iot.smarthomevisualeditor.page.RoomEditorPage;
 import c4lab.iot.smarthomevisualeditor.page.TargetDisplay;
 import fi.jasoft.dragdroplayouts.DDAbsoluteLayout;
+import fi.jasoft.dragdroplayouts.DDCssLayout;
+import fi.jasoft.dragdroplayouts.DDCssLayout.CssLayoutTargetDetails;
 import fi.jasoft.dragdroplayouts.DDGridLayout;
 import fi.jasoft.dragdroplayouts.DDVerticalLayout;
 import fi.jasoft.dragdroplayouts.client.ui.LayoutDragMode;
 import fi.jasoft.dragdroplayouts.details.AbsoluteLayoutTargetDetails;
 import fi.jasoft.dragdroplayouts.drophandlers.DefaultAbsoluteLayoutDropHandler;
+import fi.jasoft.dragdroplayouts.drophandlers.DefaultCssLayoutDropHandler;
 import fi.jasoft.dragdroplayouts.drophandlers.DefaultVerticalLayoutDropHandler;
 import fi.jasoft.dragdroplayouts.events.LayoutBoundTransferable;
 
 public class RoomUISource extends UISource {
-	private DDVerticalLayout roomLayout = new DDVerticalLayout();
+	private DDCssLayout roomLayout = new DDCssLayout();
 	private DDAbsoluteLayout roomDetailLayout = new DDAbsoluteLayout();
 
 	private RoomModel model;
@@ -41,27 +45,47 @@ public class RoomUISource extends UISource {
 		this.setDragMode(LayoutDragMode.CAPTION);
 		final Panel panel = (Panel) this.getContent();
 		roomLayout.setSizeFull();
-		roomLayout.setDropHandler(new DefaultVerticalLayoutDropHandler(Alignment.TOP_CENTER) {
+		roomLayout.setDropHandler(new DefaultCssLayoutDropHandler() {
 			@Override
 			public void drop(DragAndDropEvent event) {
 				LayoutBoundTransferable transferable = (LayoutBoundTransferable) event.getTransferable();
-
-				VerticalLayoutTargetDetails details = (VerticalLayoutTargetDetails) event.getTargetDetails();
-				AbstractOrderedLayout layout = (AbstractOrderedLayout) details.getTarget();
-				// Component source =
-				// event.getTransferable().getSourceComponent();
+				CssLayoutTargetDetails details = (CssLayoutTargetDetails) event.getTargetDetails();
+				DDCssLayout layout = (DDCssLayout) details.getTarget();
+				HorizontalDropLocation hl = details.getHorizontalDropLocation();
+				VerticalDropLocation vl = details.getVerticalDropLocation();
+				Component s = event.getTransferable().getSourceComponent();
+				s.setWidthUndefined();
 				int idx = details.getOverIndex();
-				VerticalDropLocation loc = details.getDropLocation();
+				// VerticalDropLocation loc = details.getDropLocation();
 				Component component = transferable.getComponent();
-
-				if (loc == VerticalDropLocation.MIDDLE || loc == VerticalDropLocation.BOTTOM)
-					idx++;
-
+				Component over = details.getOverComponent();
+				// if (loc == VerticalDropLocation.MIDDLE || loc ==
+				// VerticalDropLocation.BOTTOM)
+				// idx++;
+				if (over == layout) {
+		            if (vl == VerticalDropLocation.TOP
+		                    || hl == HorizontalDropLocation.LEFT) {
+		                idx = 0;
+		            } else if (vl == VerticalDropLocation.BOTTOM
+		                    || hl == HorizontalDropLocation.RIGHT) {
+		                idx = -1;
+		            }
+		        } else {
+		            if (vl == VerticalDropLocation.BOTTOM
+		                    || hl == HorizontalDropLocation.RIGHT) {
+		                idx++;
+		            }
+		        }
+				
 				UISource source = (UISource) component;
 
 				if (!source.isContainer()) {
-					ComponentUISource cs = new ComponentUISource(new Button(source.getName()), source.getName());
+					Button btn = new Button(source.getName());
+					btn.setDescription(source.getName());
+					ComponentUISource cs = new ComponentUISource(btn, source.getName());
 					cs.setUid(UISource.randomString());
+					cs.setSizeUndefined();
+					cs.getContent().setSizeUndefined();
 					System.out.println(cs.getUid());
 					componentsList.add(cs);
 					if (idx >= 0) {
@@ -70,6 +94,8 @@ public class RoomUISource extends UISource {
 						layout.addComponent(cs);
 					}
 				}
+				
+				s.setWidth("100%");
 			}
 		});
 		roomDetailLayout.setSizeFull();
@@ -83,8 +109,9 @@ public class RoomUISource extends UISource {
 				DDAbsoluteLayout layout = (DDAbsoluteLayout) details.getTarget();
 				if (component.getClass().equals(ComponentUISource.class)) {
 					// move component
-					int leftPixelPosition = details.getRelativeLeft();
-					int topPixelPosition = details.getRelativeTop();
+					int leftPixelPosition = (details.getRelativeLeft() / 30) * 30; 
+					int topPixelPosition = (details.getRelativeTop() / 30) * 30;
+					// System.out.println(leftPixelPosition + ", " + topPixelPosition);
 					ComponentPosition position = layout.getPosition(component);
 					position.setLeft((float) leftPixelPosition, Sizeable.Unit.PIXELS);
 					position.setTop((float) topPixelPosition, Sizeable.Unit.PIXELS);
@@ -142,8 +169,8 @@ public class RoomUISource extends UISource {
 	public void hideToSchematic() {
 		roomLayout.removeAllComponents();
 		for (ComponentUISource cs : componentsList) {
-			cs.setWidth("100%");
-			cs.getContent().setWidth("100%");
+			// cs.setWidth("100%");
+			// cs.getContent().setWidth("100%");
 			roomLayout.addComponent(cs);
 		}
 

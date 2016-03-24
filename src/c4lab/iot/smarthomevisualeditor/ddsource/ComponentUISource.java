@@ -12,6 +12,7 @@ public class ComponentUISource extends UISource {
 	
 	public ComponentUISource(Component c, String name) {
 		super(c, name);
+		c.addStyleName("btnnobackground");
 		this.setIsContainer(false);
 		DDVerticalLayout parent = (DDVerticalLayout) this.getContent().getParent();
 		parent.setHeightUndefined();
@@ -21,7 +22,7 @@ public class ComponentUISource extends UISource {
 		super(cs.getName());
 		this.setWidthUndefined();
 		this.setHeightUndefined();
-		this.setId(cs.getId());
+		this.setUid(cs.getUid());
 		this.setContent(new Button(cs.getName()));
 	}
 	
@@ -30,7 +31,6 @@ public class ComponentUISource extends UISource {
 	}
 	
 	public ComponentUISource caseToDetailComponentUISource() {
-		// ComponentUISource clone = new ComponentUISource(this);
 		this.setWidthUndefined();
 		return this;
 	}
