@@ -10,9 +10,8 @@ import com.vaadin.server.ThemeResource;
 import com.vaadin.shared.ui.dd.HorizontalDropLocation;
 import com.vaadin.shared.ui.dd.VerticalDropLocation;
 import com.vaadin.ui.AbsoluteLayout.ComponentPosition;
-import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
-import com.vaadin.ui.Embedded;
+import com.vaadin.ui.DragAndDropWrapper.WrapperTransferable;
 import com.vaadin.ui.Image;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.VerticalLayout;
@@ -23,6 +22,7 @@ import fi.jasoft.dragdroplayouts.DDCssLayout;
 import fi.jasoft.dragdroplayouts.DDCssLayout.CssLayoutTargetDetails;
 import fi.jasoft.dragdroplayouts.DDGridLayout;
 import fi.jasoft.dragdroplayouts.client.ui.LayoutDragMode;
+import fi.jasoft.dragdroplayouts.client.ui.Constants;
 import fi.jasoft.dragdroplayouts.details.AbsoluteLayoutTargetDetails;
 import fi.jasoft.dragdroplayouts.drophandlers.DefaultAbsoluteLayoutDropHandler;
 import fi.jasoft.dragdroplayouts.drophandlers.DefaultCssLayoutDropHandler;
@@ -59,20 +59,17 @@ public class RoomUISource extends UISource {
 				// VerticalDropLocation.BOTTOM)
 				// idx++;
 				if (over == layout) {
-		            if (vl == VerticalDropLocation.TOP
-		                    || hl == HorizontalDropLocation.LEFT) {
-		                idx = 0;
-		            } else if (vl == VerticalDropLocation.BOTTOM
-		                    || hl == HorizontalDropLocation.RIGHT) {
-		                idx = -1;
-		            }
-		        } else {
-		            if (vl == VerticalDropLocation.BOTTOM
-		                    || hl == HorizontalDropLocation.RIGHT) {
-		                idx++;
-		            }
-		        }
-				
+					if (vl == VerticalDropLocation.TOP || hl == HorizontalDropLocation.LEFT) {
+						idx = 0;
+					} else if (vl == VerticalDropLocation.BOTTOM || hl == HorizontalDropLocation.RIGHT) {
+						idx = -1;
+					}
+				} else {
+					if (vl == VerticalDropLocation.BOTTOM || hl == HorizontalDropLocation.RIGHT) {
+						idx++;
+					}
+				}
+
 				UISource source = (UISource) component;
 
 				if (!source.isContainer()) {
@@ -83,7 +80,7 @@ public class RoomUISource extends UISource {
 					cs.setUid(UISource.randomString());
 					cs.setSizeUndefined();
 					cs.getContent().setSizeUndefined();
-					
+
 					btn.setWidth("40px");
 					btn.setHeight("40px");
 					System.out.println(cs.getUid());
@@ -94,7 +91,7 @@ public class RoomUISource extends UISource {
 						layout.addComponent(cs);
 					}
 				}
-				
+
 				s.setWidth("100%");
 			}
 		});
@@ -107,12 +104,39 @@ public class RoomUISource extends UISource {
 				Component component = transferable.getComponent();
 				AbsoluteLayoutTargetDetails details = (AbsoluteLayoutTargetDetails) event.getTargetDetails();
 				DDAbsoluteLayout layout = (DDAbsoluteLayout) details.getTarget();
-				if (component.getClass().equals(ComponentUISource.class)) {
+				
+				// MouseEventDetails mouseDown =
+				// transferable.getMouseDownEvent();
+				// MouseEventDetails mouseUp = MouseEventDetails.deSerialize(
+				// (String) details.getData(Constants.DROP_DETAIL_MOUSE_EVENT));
+				// int movex = mouseUp.getClientX() - mouseDown.getClientX();
+				// int movey = mouseUp.getClientY() - mouseDown.getClientY();
+				if(component.getClass().equals(Image.class)){
+					ComponentUISource cs = (ComponentUISource) component.getParent();
+					
+					int leftPixelPosition = details.getRelativeLeft();
+					int topPixelPosition = details.getRelativeTop();
+
+					ComponentPosition position = roomDetailLayout.getPosition(cs);
+					position.setLeft((float) leftPixelPosition, Sizeable.Unit.PIXELS);
+					position.setTop((float) topPixelPosition, Sizeable.Unit.PIXELS);
+					cs.setPositionX(leftPixelPosition);
+					cs.setPositionY(topPixelPosition);
+				} else if (component.getClass().equals(ComponentUISource.class)) {
 					// move component
-					int leftPixelPosition = (details.getRelativeLeft() / 30) * 30; 
-					int topPixelPosition = (details.getRelativeTop() / 30) * 30;
-					// System.out.println(leftPixelPosition + ", " + topPixelPosition);
-					ComponentPosition position = layout.getPosition(component);
+					int leftPixelPosition = details.getRelativeLeft();
+					int topPixelPosition = details.getRelativeTop();
+
+					// if(leftPixelPosition + component.getWidth() >=
+					// roomDetailLayout.getWidth())
+					// leftPixelPosition = (int) (layout.getWidth() -
+					// roomDetailLayout.getWidth());
+					// if(topPixelPosition + component.getHeight() >=
+					// roomDetailLayout.getHeight())
+					// topPixelPosition = (int) (layout.getHeight() -
+					// roomDetailLayout.getHeight());
+
+					ComponentPosition position = roomDetailLayout.getPosition(component);
 					position.setLeft((float) leftPixelPosition, Sizeable.Unit.PIXELS);
 					position.setTop((float) topPixelPosition, Sizeable.Unit.PIXELS);
 					ComponentUISource cs = (ComponentUISource) component;
@@ -122,10 +146,17 @@ public class RoomUISource extends UISource {
 					// drop to create new component
 					UISource source = (UISource) component;
 					if (!source.isContainer()) {
-						ComponentUISource cs = new ComponentUISource(new Button(source.getName()), source.getName());
+						ThemeResource res = new ThemeResource("svg/" + source.getType() + ".svg");
+						Image btn = new Image(source.getName(), res);
+						btn.setDescription(source.getName());
+						ComponentUISource cs = new ComponentUISource(btn, source.getName());
 						cs.setUid(UISource.randomString());
 						cs.setSizeUndefined();
 						cs.getContent().setSizeUndefined();
+
+						btn.setWidth("40px");
+						btn.setHeight("40px");
+						System.out.println(cs.getUid());
 						int leftPixelPosition = details.getRelativeLeft();
 						int topPixelPosition = details.getRelativeTop();
 						layout.addComponent(cs, "left:" + leftPixelPosition + "px;top:" + topPixelPosition + "px");
