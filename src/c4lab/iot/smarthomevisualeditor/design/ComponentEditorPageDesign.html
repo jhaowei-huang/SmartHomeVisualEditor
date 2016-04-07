@@ -5,18 +5,12 @@
  </head> 
  <body> 
   <vaadin-form-layout size-full> 
-   <vaadin-label size-auto plain-text>
-     Name 
-   </vaadin-label> 
-   <vaadin-text-field></vaadin-text-field> 
-   <vaadin-label size-auto plain-text>
-     Type 
-   </vaadin-label> 
-   <vaadin-combo-box item-caption-mode="id"> 
-    <option>Option 1</option> 
-    <option>Option 2</option> 
-    <option>Option 3</option> 
-   </vaadin-combo-box> 
+   <vaadin-horizontal-layout width-full> 
+    <vaadin-label size-auto plain-text _id="lblName" :middle :center>
+      Name 
+    </vaadin-label> 
+    <vaadin-text-field _id="inputName" :middle :center></vaadin-text-field> 
+   </vaadin-horizontal-layout> 
   </vaadin-form-layout>  
  </body>
 </html>
