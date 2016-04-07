@@ -4,6 +4,7 @@ import java.security.SecureRandom;
 
 import com.vaadin.ui.Component;
 import fi.jasoft.dragdroplayouts.DDVerticalLayout;
+import fi.jasoft.dragdroplayouts.client.ui.LayoutDragMode;
 
 public class UISource extends DDVerticalLayout {
 	static final String SET = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
